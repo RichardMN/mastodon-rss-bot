@@ -1,0 +1,6 @@
+# rss_feed_url - equivalent to -f argument
+rss_feed_url: https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss
+# tags_to_add - equivalent to -t argument
+# tags_to_add:
+# days_to_check - equivalent to -d, default = 1
+days_to_check: 2

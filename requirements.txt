@@ -2,3 +2,6 @@ feedparser
 Mastodon.py
 requests
 bs4
+dotenv
+wheel
+argparser
