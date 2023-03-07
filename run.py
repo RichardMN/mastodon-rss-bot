@@ -37,8 +37,8 @@ import dynamic_tags
 def run(
     rss_feed_url: str,
     mastodon_instance: str,
+    mastodon_token: str,
     mastodon_username: str,
-    mastodon_key: str,
     tags_to_add: [],
     days_to_check: int,
     include_author: bool,
@@ -50,9 +50,9 @@ def run(
 ) -> None:
     mst = Mastodon(
         access_token=mastodon_token,
-        api_base_url=mastodon_base_url,
+        api_base_url=mastodon_instance,
     )
-    
+    print(f"Mastodon version: {mst.retrieve_mastodon_version()}")
     sql = sqlite3.connect('cache.db')
     db = sql.cursor()
     db.execute('''CREATE TABLE IF NOT EXISTS entries (feed_entry_id text, toot_id text, rss_feed_url text, mastodon_username text, mastodon_instance text)''')
