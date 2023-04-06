@@ -301,6 +301,13 @@ if __name__ == "__main__":
         required=False
     )
     arg_parser.add_argument(
+        "-n",
+        default=1,
+        dest="max_toots",
+        help="Maximum number of toots to issue",
+        required=False
+    )
+    arg_parser.add_argument(
         "-c", "--config",
         default="./cfg.yaml",
         dest="config",
@@ -335,7 +342,7 @@ if __name__ == "__main__":
     include_link_thumbnail = True
     use_privacy_frontends = True
     use_shortlink = True
-    maximum_toots_count = 1
+    #maximum_toots_count = 1
     print(f"args: {args}")
     run(
         args.rss_feed_url,
@@ -349,5 +356,5 @@ if __name__ == "__main__":
         include_link_thumbnail,
         use_privacy_frontends,
         use_shortlink,
-        maximum_toots_count
+        args.max_toots
         )

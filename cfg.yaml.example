@@ -4,3 +4,5 @@ rss_feed_url: https://www.nasa.gov/rss/dyn/lg_image_of_the_day.rss
 # tags_to_add:
 # days_to_check - equivalent to -d, default = 1
 days_to_check: 2
+# max_toots - equivalent to -n, default = 1
+max_toots: 1
