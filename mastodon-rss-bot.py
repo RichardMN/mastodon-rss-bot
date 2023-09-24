@@ -27,6 +27,7 @@ use_privacy_frontends = True
 use_shortlink = True
 maximum_toots_count = 1
 
+
 rss_feed_url = sys.argv[1]
 mastodon_instance = sys.argv[2]
 mastodon_username = sys.argv[3]
@@ -236,13 +237,16 @@ for feed_entry in reversed(feed.entries):
             toot_body += '\n\n' + filtered_tags_to_add.lstrip().rstrip()
 
         if toot_media is not None:
-            toot = mastodon_api.status_post(
-                toot_body,
-                in_reply_to_id = None,
-                media_ids = toot_media,
-                sensitive = False,
-                visibility = 'public',
-                spoiler_text = None)
+            toot = []
+            print(f"mastodon_api.status_post({toot_body}, in_reply_to_id = None, media_ids = {toot_media}, sensitive = False, visibility = 'public', spoiler_text = None)")
+
+            # toot = mastodon_api.status_post(
+            #     toot_body,
+            #     in_reply_to_id = None,
+            #     media_ids = toot_media,
+            #     sensitive = False,
+            #     visibility = 'public',
+            #     spoiler_text = None)
 
             if "id" in toot:
                 db.execute("INSERT INTO entries VALUES ( ? , ? , ? , ? , ? )",
