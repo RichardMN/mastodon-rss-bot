@@ -33,6 +33,8 @@ import dynamic_tags
 # tags_to_add = sys.argv[6]
 # days_to_check = int(sys.argv[7])
 
+def is_spotlight_title(tag):
+    return tag.has_attr('class') and "spotlight_title" in tag['class']
 
 def run(
     rss_feed_url: str,
@@ -160,6 +162,16 @@ def run(
 
                 #print(' > Found link thumbnail media: ' + thumbnail_url)
                 media_urls.append(thumbnail_url)
+            
+            if include_link_thumbnail and media_urls is not None and linked_page is not None:
+                #spotlight_divs = linked_page.find_all( is_spotlight_title )
+                #print(len(spotlight_divs))
+                key_entry = linked_page.find_all(string=re.compile(".*"+feed_entry_title[0:-20]+".*"))
+                print(key_entry[0])
+                img_url = key_entry[0].parent.parent.previous_sibling.previous_sibling.find_all("img")[0].attrs["src"]
+                print(img_url)
+                media_urls.append(img_url)
+                second_link_url = key_entry[0].parent.attrs["href"]
 
             toot_media = []
             for media_url in media_urls:
@@ -206,7 +218,14 @@ def run(
                 feed_entry_link = re.sub('\?utm.*$', '', feed_entry_link)
                 feed_entry_link = re.sub('/$', '', feed_entry_link)
 
-                toot_body += '\n\n🔗 ' + feed_entry_link
+                toot_body += '\n'
+                # Because UNODA puts the wrong url into the RSS, we pull a better url
+                # from the page itself and put it first so Mastodon will look to it
+                # for a social page.
+                if (len(second_link_url)>0):
+                    toot_body += '\n🔗 ' + second_link_url
+                toot_body += '\n🔗 ' + feed_entry_link
+
 
             if include_author and 'authors' in feed_entry:
                 toot_body += '\nby ' + feed_entry.authors[0].name
